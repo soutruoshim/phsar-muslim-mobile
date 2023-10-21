@@ -492,7 +492,7 @@ class PopularTags {
   PopularTags.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     tag = json['tag'];
-    visitCount = json['visit_count'];
+    visitCount = int.parse(json['visit_count']) ;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
