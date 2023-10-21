@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567607696984",
+    "project_id": "phsar-muslim",
+    "storage_bucket": "phsar-muslim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567607696984:android:9081e8bd89b2fb2b8bf42d",
+        "android_client_info": {
+          "package_name": "com.srhdp.phsarmuslim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx6xQuv5vnBYyOnEuX1cWqRB4QGCv7ghA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
