@@ -136,7 +136,7 @@ class ProductFullInfo {
     featured = json['featured'];
     videoProvider = json['video_provider'];
     colors = json['colors'];
-    variantProduct = json['variant_product'];
+    variantProduct = int.parse(json['variant_product']);
     attributes = json['attributes'];
     choiceOptions = json['choice_options'];
     variation = json['variation'];
@@ -149,7 +149,7 @@ class ProductFullInfo {
     discount = json['discount'].toDouble();
     discountType = json['discount_type'];
     currentStock = json['current_stock'];
-    minimumOrderQty = json['minimum_order_qty'];
+    minimumOrderQty = int.parse(json['minimum_order_qty']);
     details = json['details'];
     freeShipping = json['free_shipping'];
     createdAt = json['created_at'];
@@ -159,11 +159,11 @@ class ProductFullInfo {
     metaTitle = json['meta_title'];
     metaDescription = json['meta_description'];
     metaImage = json['meta_image'];
-    requestStatus = json['request_status'];
+    requestStatus = int.parse(json['request_status']);
     shippingCost = json['shipping_cost'];
     multiplyQty = json['multiply_qty'];
     code = json['code'];
-    reviewsCount = json['reviews_count'];
+    reviewsCount = int.parse(json['reviews_count']);
   }
 
 }

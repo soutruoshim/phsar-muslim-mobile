@@ -125,7 +125,7 @@ class Orders {
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     customerId = json['customer_id'];
-    isGuest = json['is_guest'];
+    isGuest = int.parse(json['is_guest']);
     customerType = json['customer_type'];
     paymentStatus = json['payment_status'];
     orderStatus = json['order_status'];
@@ -146,15 +146,15 @@ class Orders {
     couponDiscountBearer = json['coupon_discount_bearer'];
     shippingMethodId = json['shipping_method_id'];
     shippingCost = json['shipping_cost'].toDouble();
-    isShippingFree = json['is_shipping_free'];
+    isShippingFree = int.parse(json['is_shipping_free']) ;
     orderGroupId = json['order_group_id'];
     verificationCode = json['verification_code'];
-    verificationStatus = json['verification_status'];
+    verificationStatus = int.parse(json['verification_status']);
     sellerId = json['seller_id'];
     sellerIs = json['seller_is'];
     shippingAddressData = json['shipping_address_data'] != null ? ShippingAddressData.fromJson(json['shipping_address_data']) : null;
     deliveryManId = json['delivery_man_id'];
-    deliverymanCharge = json['deliveryman_charge'];
+    deliverymanCharge = int.parse(json['deliveryman_charge']);
     expectedDeliveryDate = json['expected_delivery_date'];
     orderNote = json['order_note'];
     billingAddress = json['billing_address'];
@@ -163,12 +163,12 @@ class Orders {
     extraDiscount = json['extra_discount'].toDouble();
     extraDiscountType = json['extra_discount_type'];
     freeDeliveryBearer = json['free_delivery_bearer'];
-    checked = json['checked'];
+    checked = int.parse(json['checked']) ;
     shippingType = json['shipping_type'];
     deliveryType = json['delivery_type'];
     deliveryServiceName = json['delivery_service_name'];
     thirdPartyDeliveryTrackingId = json['third_party_delivery_tracking_id'];
-    orderDetailsCount = json['order_details_count'];
+    orderDetailsCount = int.parse(json['order_details_count']==null?"0":json['order_details_count']);
     if (json['details'] != null) {
       details = <Details>[];
       json['details'].forEach((v) {

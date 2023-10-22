@@ -105,10 +105,11 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                           onTap: () async {
                             if(orderProvider.addressIndex == null && !widget.onlyDigital) {
                               showCustomSnackBar(getTranslated('select_a_shipping_address', context), context, isToaster: true);
-                            }else if(orderProvider.billingAddressIndex == null ){
-                              showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
-
                             }
+                            // else if(orderProvider.billingAddressIndex == null ){
+                            //   showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
+                            //
+                            // }
 
                             else {
                               List<CartModel> cartList = [];

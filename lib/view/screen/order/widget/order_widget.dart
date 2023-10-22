@@ -19,7 +19,8 @@ class OrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    print("${orderModel?.seller?.shop}");
+    print('${Provider.of<SplashProvider>(context, listen: false).configModel?.baseUrls?.shopImageUrl}/${orderModel?.seller?.shop?.image}');
     return InkWell(
       onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailsScreen(orderId: orderModel!.id)));},
 
@@ -47,7 +48,8 @@ class OrderWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                         child: FadeInImage.assetNetwork(
                           placeholder: Images.placeholder, fit: BoxFit.scaleDown, width: 80, height: 80,
-                          image: '${Provider.of<SplashProvider>(context, listen: false).configModel?.baseUrls?.shopImageUrl}/${orderModel?.seller?.shop?.image}',
+                          //image: '${Provider.of<SplashProvider>(context, listen: false).configModel?.baseUrls?.shopImageUrl}/${orderModel?.seller?.shop?.image}',
+                          image: '${Provider.of<SplashProvider>(context, listen: false).configModel?.companyLogo}',
                           imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder, fit: BoxFit.scaleDown, width: 80, height: 80),
                         ),
                       ),

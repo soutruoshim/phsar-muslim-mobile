@@ -69,7 +69,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       _address = Address.shipping;
     }
 
-    country = 'BD';
+    country = 'KH';
     _countryCodeController.text = country;
     Provider.of<LocationProvider>(context, listen: false).initializeAllAddressType(context: context);
     Provider.of<ProfileProvider>(context, listen: false).initAddressTypeList(context);
@@ -378,49 +378,49 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                     const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
 
 
-                    Provider.of<SplashProvider>(context, listen: false).configModel!.deliveryZipCodeAreaRestriction == 0?
-                    CustomTextField(
-                      labelText: getTranslated('zip', context),
-                        hintText: getTranslated('zip', context),
-                        inputAction: TextInputAction.done,
-                        focusNode: _zipNode,
-                        prefixIcon: Images.city,
-                        controller: _zipCodeController,
-
-                      ):
-                      SizedBox(height: 50,
-                        child: DropdownSearch<RestrictedZipModel>(
-                          items: locationProvider.restrictedZipList,
-                          itemAsString: (RestrictedZipModel u) => u.zipcode!,
-                          onChanged: (value){
-                            _zipCodeController.text = value!.zipcode!;
-                          },
-                          dropdownDecoratorProps:  DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(labelText: "zip",
-                              contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                              prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                                child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
-                              ),
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
-                                    width: 0.5,)),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
-                                    width: 0.5)),
-
-                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
-                                    width:0.5)),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                    // Provider.of<SplashProvider>(context, listen: false).configModel!.deliveryZipCodeAreaRestriction == 0?
+                    // CustomTextField(
+                    //   labelText: getTranslated('zip', context),
+                    //     hintText: getTranslated('zip', context),
+                    //     inputAction: TextInputAction.done,
+                    //     focusNode: _zipNode,
+                    //     prefixIcon: Images.city,
+                    //     controller: _zipCodeController,
+                    //
+                    //   ):
+                    //   SizedBox(height: 50,
+                    //     child: DropdownSearch<RestrictedZipModel>(
+                    //       items: locationProvider.restrictedZipList,
+                    //       itemAsString: (RestrictedZipModel u) => u.zipcode!,
+                    //       onChanged: (value){
+                    //         _zipCodeController.text = value!.zipcode!;
+                    //       },
+                    //       dropdownDecoratorProps:  DropDownDecoratorProps(
+                    //         dropdownSearchDecoration: InputDecoration(labelText: "zip",
+                    //           contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                    //           prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
+                    //           prefixIcon: Padding(
+                    //             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                    //             child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
+                    //           ),
+                    //           alignLabelWithHint: true,
+                    //           border: OutlineInputBorder(
+                    //               borderRadius: BorderRadius.circular(8),
+                    //               borderSide: BorderSide(color: Theme.of(context).hintColor,
+                    //                 width: 0.5,)),
+                    //           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                    //               borderSide: BorderSide(color: Theme.of(context).hintColor,
+                    //                 width: 0.5)),
+                    //
+                    //           enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                    //               borderSide: BorderSide(color: Theme.of(context).hintColor,
+                    //                 width:0.5)),
+                    //         ),
+                    //       ),
+                    //
+                    //     ),
+                    //   ),
+                    // const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
 
 
 
@@ -435,7 +435,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                             phone: '${Provider.of<AuthProvider>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
                             email: _contactPersonEmailController.text.trim(),
                             city: _cityController.text,
-                            zip: _zipCodeController.text,
+                            zip: "121001",
                             country:  _countryCodeController.text,
                             guestId: Provider.of<AuthProvider>(context, listen: false).getGuestToken(),
                             isBilling: _address == Address.billing ? 1:0,
@@ -455,10 +455,13 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                             showCustomSnackBar('${getTranslated('contact_person_phone_is_required', context)}', context);
                           }else if(locationProvider.locationController.text.trim().isEmpty){
                             showCustomSnackBar('${getTranslated('address_is_required', context)}', context);
-                          }else if(_cityController.text.trim().isEmpty){
-                            showCustomSnackBar('${getTranslated('city_is_required', context)}', context);
-                          }else if(_zipCodeController.text.trim().isEmpty){
-                            showCustomSnackBar('${getTranslated('zip_code_is_required', context)}', context);
+                          }else if(_cityController.text.trim().isEmpty) {
+                            showCustomSnackBar(
+                                '${getTranslated('city_is_required', context)}',
+                                context);
+                            // }else if(_zipCodeController.text.trim().isEmpty){
+                            //   showCustomSnackBar('${getTranslated('zip_code_is_required', context)}', context);
+                            // }
                           }else if(_contactPersonEmailController.text.trim().isEmpty && !Provider.of<AuthProvider>(context, listen: false).isLoggedIn()){
                             showCustomSnackBar('${getTranslated('email_is_required', context)}', context);
                           }

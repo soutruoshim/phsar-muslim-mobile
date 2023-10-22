@@ -47,7 +47,7 @@ class OfflineMethods {
         methodInformations!.add(MethodInformations.fromJson(v));
       });
     }
-    status = json['status'];
+    status = int.parse(json['status']) ;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }

@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   int _selectedIndex = 0;
   int get selectedIndex =>_selectedIndex;
 
-  String countryDialCode = '+880';
+  String countryDialCode = '+855';
   void setCountryCode( String countryCode, {bool notify = true}){
     countryDialCode  = countryDialCode;
     if(notify){

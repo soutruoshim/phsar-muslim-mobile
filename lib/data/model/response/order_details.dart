@@ -161,7 +161,7 @@ class Order {
   Order({this.isShippingFree});
 
   Order.fromJson(Map<String, dynamic> json) {
-    isShippingFree = json['is_shipping_free'];
+    isShippingFree = int.parse(json['is_shipping_free']) ;
   }
 
 
