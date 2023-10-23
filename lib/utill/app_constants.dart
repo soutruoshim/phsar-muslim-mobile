@@ -179,6 +179,6 @@ static const String otpVerificationForDigitalProduct = '/api/v1/customer/order/d
 
   static List<LanguageModel> languages = [
     LanguageModel(imageUrl: Images.en, languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    LanguageModel(imageUrl: Images.kh, languageName: 'Khmer', countryCode: 'KH', languageCode: 'kh'),
+    LanguageModel(imageUrl: Images.kh, languageName: 'Khmer', countryCode: 'KH', languageCode: 'km'),
   ];
 }

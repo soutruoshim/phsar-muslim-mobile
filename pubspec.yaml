@@ -98,6 +98,7 @@ flutter:
     - assets/images/
     - assets/language/
     - assets/icon/
+    - assets/address/
 
   fonts:
     - family: SF-Pro-Rounded-Regular

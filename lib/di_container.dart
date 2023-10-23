@@ -25,6 +25,7 @@ import 'package:phsar_muslim/data/repository/top_seller_repo.dart';
 import 'package:phsar_muslim/data/repository/wallet_transaction_repo.dart';
 import 'package:phsar_muslim/data/repository/wishlist_repo.dart';
 import 'package:phsar_muslim/helper/network_info.dart';
+import 'package:phsar_muslim/provider/address_provider.dart';
 import 'package:phsar_muslim/provider/auth_provider.dart';
 import 'package:phsar_muslim/provider/banner_provider.dart';
 import 'package:phsar_muslim/provider/brand_provider.dart';
@@ -126,7 +127,7 @@ Future<void> init() async {
   sl.registerFactory(() => LocationProvider(sharedPreferences: sl(), locationRepo: sl()));
   sl.registerFactory(() => WalletTransactionProvider(transactionRepo: sl()));
   sl.registerFactory(() => CompareProvider(compareRepo: sl()));
-
+  sl.registerFactory(() => AddressProvider());
   // External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);

@@ -684,5 +684,6 @@
   "order_verification_code": "Order verification code",
   "verify_otp": "Verify OTP",
   "recommanded_products": "Recommanded Products",
-  "fill_all_required_fill": "Fill all required field"
+  "fill_all_required_fill": "Fill all required field",
+  "province": "Province"
 }

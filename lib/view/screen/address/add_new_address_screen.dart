@@ -4,10 +4,13 @@ import 'package:country_currency_pickers/country_picker_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:phsar_muslim/data/model/response/address_model.dart';
+import 'package:phsar_muslim/data/model/response/province_model.dart';
 import 'package:phsar_muslim/data/model/response/restricted_zip_model.dart';
 import 'package:phsar_muslim/helper/velidate_check.dart';
+import 'package:phsar_muslim/localization/app_localization.dart';
 import 'package:phsar_muslim/localization/language_constrants.dart';
 import 'package:phsar_muslim/main.dart';
+import 'package:phsar_muslim/provider/address_provider.dart';
 import 'package:phsar_muslim/provider/auth_provider.dart';
 import 'package:phsar_muslim/provider/location_provider.dart';
 import 'package:phsar_muslim/provider/order_provider.dart';
@@ -76,6 +79,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     Provider.of<LocationProvider>(context, listen: false).getRestrictedDeliveryCountryList(context);
     Provider.of<LocationProvider>(context, listen: false).getRestrictedDeliveryZipList(context);
 
+    Provider.of<AddressProvider>(context, listen: false).readProvince();
 
     Provider.of<LocationProvider>(context, listen: false).updateAddressStatusMessae(message: '');
     Provider.of<LocationProvider>(context, listen: false).updateErrorMessage(message: '');
@@ -104,6 +108,9 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Province>? provinces = Provider.of<AddressProvider>(context, listen: false).provinceList;
+    String? language = AppLocalization.of(context)?.locale.languageCode;
+    print("language $language");
     return Scaffold(
       appBar: CustomAppBar(title: widget.isEnableUpdate ? getTranslated('update_address', context) : getTranslated('add_new_address', context)),
       body: SingleChildScrollView(
@@ -112,10 +119,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
               builder: (context, locationProvider, child) {
                 return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-
-
-
                     Padding(
                       padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
                       child: CustomTextField(
@@ -376,6 +379,42 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                         controller: _cityController,
                       ),
                     const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+
+
+                    SizedBox(height: 50,
+                        child: DropdownSearch<Province>(
+                          items: provinces!,
+                          itemAsString: (Province u) => language !='km'?u.name!:u.khmerName!,
+                          onChanged: (value){
+                            _zipCodeController.text = value!.id!;
+                          },
+                          dropdownDecoratorProps:  DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(labelText: getTranslated('province', context),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                              prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
+                              ),
+                              alignLabelWithHint: true,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width: 0.5,)),
+                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width: 0.5)),
+
+                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width:0.5)),
+                            ),
+                          ),
+
+                        ),
+                      ),
+                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+
 
 
                     // Provider.of<SplashProvider>(context, listen: false).configModel!.deliveryZipCodeAreaRestriction == 0?

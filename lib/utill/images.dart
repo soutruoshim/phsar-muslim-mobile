@@ -173,7 +173,7 @@ class Images {
   static const String noNotification = 'assets/images/no_notification.png';
   static const String exitIcon = 'assets/images/exit_icon.png';
   static const String en = 'assets/images/en.png';
-  static const String kh = 'assets/images/en.png';
+  static const String kh = 'assets/images/kh.png';
   static const String bn = 'assets/images/bn.png';
   static const String hi = 'assets/images/in.png';
   static const String es = 'assets/images/es.png';

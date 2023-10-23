@@ -7,6 +7,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:phsar_muslim/provider/address_provider.dart';
 import 'package:phsar_muslim/provider/facebook_login_provider.dart';
 import 'package:phsar_muslim/provider/featured_deal_provider.dart';
 import 'package:phsar_muslim/provider/google_sign_in_provider.dart';
@@ -111,6 +112,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<LocationProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<WalletTransactionProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<CompareProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<AddressProvider>()),
     ],
     child: MyApp(orderId: orderID),
   ));
