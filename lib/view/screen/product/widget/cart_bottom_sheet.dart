@@ -192,7 +192,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                     Text('${getTranslated('select_variant', context)} : ',
                         style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
                     const SizedBox(width: Dimensions.paddingSizeDefault),
-                    Expanded(child: SizedBox(height: 40,
+                    Expanded(child: SizedBox(height: 60,
                         child: ListView.builder(
                           itemCount: widget.product!.colors!.length,
                           shrinkWrap: true,
@@ -209,10 +209,15 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                                       border: details.variantIndex == index ? Border.all(width: 2,
                                           color: Theme.of(context).primaryColor.withOpacity(.5)) : null),
                                     child: Padding(padding: const EdgeInsets.all(2),
-                                      child: Container(height: Dimensions.topSpace, width: Dimensions.topSpace,
+                                      child: Container(
+                                        height: Dimensions.imageColor, width: Dimensions.imageColor,
                                         alignment: Alignment.center,
-                                        decoration: BoxDecoration(color: Color(int.parse(colorString)),
-                                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
+                                        decoration: BoxDecoration(
+                                          //color: Color(int.parse(colorString)),
+                                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                                          image: DecorationImage(image: NetworkImage('${Provider.of<SplashProvider>(context,listen: false).baseUrls!.productImageUrl}/${widget.product!.colorImage![index].imageName}'),
+                                                fit: BoxFit.cover)
+                                        ),
                                       ),
                                     ),
                                   ),

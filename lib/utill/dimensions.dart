@@ -40,6 +40,7 @@ class Dimensions {
 
   static const double topSpace = 30.0;
   static const double splashLogoWidth = 150.0;
+  static const double imageColor = 60.0;
 
 
   static const double chooseReviewImageSize = 40.0;
