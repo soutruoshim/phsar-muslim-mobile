@@ -44,21 +44,34 @@ class AddNewAddressScreen extends StatefulWidget {
 }
 
 class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
+
   final TextEditingController _contactPersonNameController = TextEditingController();
   final TextEditingController _contactPersonEmailController = TextEditingController();
   final TextEditingController _contactPersonNumberController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _communeController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _countryCodeController = TextEditingController();
+
   final FocusNode _addressNode = FocusNode();
   final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
   final FocusNode _numberNode = FocusNode();
   final FocusNode _cityNode = FocusNode();
   final FocusNode _zipNode = FocusNode();
+
   GoogleMapController? _controller;
   CameraPosition? _cameraPosition;
   bool _updateAddress = true;
+
+  String? _provinceId;
+  String? _districtId;
+  String? _communeId;
+
+  List<District> _listDistrict = [];
+  List<Commune> _listCommune = [];
+
   Address? _address;
 
   String zip = '',  country = '';
@@ -80,6 +93,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     Provider.of<LocationProvider>(context, listen: false).getRestrictedDeliveryZipList(context);
 
     Provider.of<AddressProvider>(context, listen: false).readProvince();
+    Provider.of<AddressProvider>(context, listen: false).readDistrict();
+    Provider.of<AddressProvider>(context, listen: false).readCommune();
 
     Provider.of<LocationProvider>(context, listen: false).updateAddressStatusMessae(message: '');
     Provider.of<LocationProvider>(context, listen: false).updateErrorMessage(message: '');
@@ -106,11 +121,30 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     }
   }
 
+  List<District>? getDistrict(String provinceId){
+    List<District>? districts = Provider.of<AddressProvider>(context, listen: false).districtList;
+    setState(() {
+      _listDistrict.clear();
+      _listDistrict = districts!.where((district) => district.provinceId == provinceId).toList();
+    });
+
+  }
+
+  List<Commune>? getCommune(String districtId){
+    List<Commune>? communes = Provider.of<AddressProvider>(context, listen: false).communeList;
+    setState(() {
+      _listCommune.clear();
+      _listCommune = communes!.where((commune) => commune.districtId == districtId).toList();
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     List<Province>? provinces = Provider.of<AddressProvider>(context, listen: false).provinceList;
+
     String? language = AppLocalization.of(context)?.locale.languageCode;
-    print("language $language");
+
     return Scaffold(
       appBar: CustomAppBar(title: widget.isEnableUpdate ? getTranslated('update_address', context) : getTranslated('add_new_address', context)),
       body: SingleChildScrollView(
@@ -276,40 +310,29 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                 Text(getTranslated('shipping_address', context)!),]),
 
 
-                            Row(children: [
-                              Radio<Address>(
-                                value: Address.billing,
-                                groupValue: _address,
-                                onChanged: (Address? value) {
-                                  setState(() {
-                                    _address = value;
-                                  });},
-                                ),
-                                Text(getTranslated('billing_address', context)!),
-                              ],
-                          ),
+                            // Row(children: [
+                            //   Radio<Address>(
+                            //     value: Address.billing,
+                            //     groupValue: _address,
+                            //     onChanged: (Address? value) {
+                            //       setState(() {
+                            //         _address = value;
+                            //       });},
+                            //     ),
+                            //     Text(getTranslated('billing_address', context)!),
+                            //   ],
+                            // ),
                     ],
                   ),),
                       ),
 
 
-
-                      CustomTextField(labelText: getTranslated('delivery_address', context),
-                        hintText: getTranslated('usa', context),
-                        inputType: TextInputType.streetAddress,
-                        inputAction: TextInputAction.next,
-                        focusNode: _addressNode,
-                        prefixIcon: Images.address,
-                        nextFocus: _cityNode,
-                        controller: locationProvider.locationController,),
-                      const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
-
                     SizedBox(height: 50,
                       child: Consumer<LocationProvider>(
                           builder: (context, locationProvider, _) {
                             return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Provider.of<SplashProvider>(context, listen: false).configModel!.deliveryCountryRestriction == 1?
 
+                              Provider.of<SplashProvider>(context, listen: false).configModel!.deliveryCountryRestriction == 1?
                               DropdownSearch<String>(
                                 popupProps: const PopupProps.menu(
                                     showSelectedItems: true),
@@ -368,52 +391,143 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 
                     const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
 
-                      CustomTextField(
-                        labelText: getTranslated('city', context),
-                        hintText: getTranslated('city', context),
-                        inputType: TextInputType.streetAddress,
-                        inputAction: TextInputAction.next,
-                        focusNode: _cityNode,
-                        nextFocus: _zipNode,
-                        prefixIcon: Images.city,
-                        controller: _cityController,
-                      ),
-                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
-
-
+                    //Province filter
                     SizedBox(height: 50,
-                        child: DropdownSearch<Province>(
-                          items: provinces!,
-                          itemAsString: (Province u) => language !='km'?u.name!:u.khmerName!,
-                          onChanged: (value){
-                            _zipCodeController.text = value!.id!;
-                          },
-                          dropdownDecoratorProps:  DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(labelText: getTranslated('province', context),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                              prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                                child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
-                              ),
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
-                                    width: 0.5,)),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
+                      child: DropdownSearch<Province>(
+                        items: provinces!,
+                        itemAsString: (Province u) => language !='km'?u.name!:u.khmerName!,
+                        onChanged: (value){
+                          _cityController.text = language !='km'?value!.name!:value!.khmerName!;
+                          _provinceId = value!.id!;
+                          _districtController.clear();
+                          getDistrict(_provinceId!);
+                        },
+                        dropdownDecoratorProps:  DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(labelText: getTranslated('province', context),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                            prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                              child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
+                            ),
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                  width: 0.5,)),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
                                     width: 0.5)),
 
-                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Theme.of(context).hintColor,
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
                                     width:0.5)),
-                            ),
                           ),
-
                         ),
+
                       ),
+                    ),
                     const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                    // end province filter
+
+                    //District filter
+                    SizedBox(height: 50,
+                      child: DropdownSearch<District>(
+                        items: _listDistrict!,
+                        itemAsString: (District u) => language !='km'?u.name!:u.khmerName!,
+                        onChanged: (value){
+                          _districtController.text = language !='km'?value!.name!:value!.khmerName!;
+                          _districtId = value!.id!;
+                          getCommune(_districtId!);
+                        },
+                        dropdownDecoratorProps:  DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(labelText: getTranslated('district', context),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                            prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                              child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
+                            ),
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                  width: 0.5,)),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width: 0.5)),
+
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width:0.5)),
+                          ),
+                        ),
+
+                      ),
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                    // end District filter
+
+                    //Commune filter
+                    SizedBox(height: 50,
+                      child: DropdownSearch<Commune>(
+                        items: _listCommune!,
+                        itemAsString: (Commune u) => language !='km'?u.name!:u.khmerName!,
+                        onChanged: (value){
+                          _communeController.text = language !='km'?value!.name!:value!.khmerName!;
+                          _communeId = value!.id!;
+                          locationProvider.locationController.text = "${_communeController.text},${_districtController.text}, ${_cityController.text}";
+                        },
+                        dropdownDecoratorProps:  DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(labelText: getTranslated('commune', context),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                            prefixIconConstraints: const BoxConstraints(minHeight: 40, maxWidth: 40),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                              child: SizedBox(width: 20,height: 20,child: Image.asset(Images.city)),
+                            ),
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                  width: 0.5,)),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width: 0.5)),
+
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Theme.of(context).hintColor,
+                                    width:0.5)),
+                          ),
+                        ),
+
+                      ),
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                    // end Commune filter
+
+                    CustomTextField(labelText: getTranslated('delivery_address', context),
+                      hintText: getTranslated('usa', context),
+                      inputType: TextInputType.streetAddress,
+                      inputAction: TextInputAction.next,
+                      focusNode: _addressNode,
+                      prefixIcon: Images.address,
+                      nextFocus: _cityNode,
+                      controller: locationProvider.locationController),
+                    const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+
+                    // CustomTextField(
+                    //     labelText: getTranslated('city', context),
+                    //     hintText: getTranslated('city', context),
+                    //     inputType: TextInputType.streetAddress,
+                    //     inputAction: TextInputAction.next,
+                    //     focusNode: _cityNode,
+                    //     nextFocus: _zipNode,
+                    //     prefixIcon: Images.city,
+                    //     controller: _cityController,
+                    //   ),
+                    // const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+
 
 
 
@@ -472,7 +586,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                             addressType: locationProvider.addressTypeList[locationProvider.selectAddressIndex].title,
                             contactPersonName: _contactPersonNameController.text,
                             phone: '${Provider.of<AuthProvider>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
-                            email: _contactPersonEmailController.text.trim(),
+                            email: _contactPersonEmailController.text.trim()==""?"empty@email.com":_contactPersonEmailController.text.trim(),
                             city: _cityController.text,
                             zip: "121001",
                             country:  _countryCodeController.text,
@@ -501,8 +615,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                             // }else if(_zipCodeController.text.trim().isEmpty){
                             //   showCustomSnackBar('${getTranslated('zip_code_is_required', context)}', context);
                             // }
-                          }else if(_contactPersonEmailController.text.trim().isEmpty && !Provider.of<AuthProvider>(context, listen: false).isLoggedIn()){
-                            showCustomSnackBar('${getTranslated('email_is_required', context)}', context);
+                          // }else if(_contactPersonEmailController.text.trim().isEmpty && !Provider.of<AuthProvider>(context, listen: false).isLoggedIn()){
+                          //   showCustomSnackBar('${getTranslated('email_is_required', context)}', context);
                           }
                           else {
                             locationProvider.addAddress(addressModel, context).then((value) {

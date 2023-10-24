@@ -685,5 +685,7 @@
   "verify_otp": "Verify OTP",
   "recommanded_products": "Recommanded Products",
   "fill_all_required_fill": "Fill all required field",
-  "province": "Province"
+  "province": "Province",
+  "district": "District",
+  "commune": "Commune"
 }

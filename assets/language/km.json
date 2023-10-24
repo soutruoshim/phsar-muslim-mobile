@@ -685,5 +685,7 @@
   "verify_otp": "ផ្ទៀងផ្ទាត់ OTP",
   "recommanded_products": "ផលិតផលដែលត្រូវបានណែនាំ",
   "fill_all_required_fill": "បំពេញបែបបទដែលទាមទារ",
-  "province": "ខេត្ត"
+  "province": "ខេត្ត/ក្រុង",
+  "district": "ស្រុក/ខណ្ឌ",
+  "commune": "ឃុំ"
 }

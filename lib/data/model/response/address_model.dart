@@ -78,3 +78,81 @@ class AddressModel {
     return data;
   }
 }
+
+class District {
+  String? id;
+  String? type;
+  String? code;
+  String? khmerName;
+  String? name;
+  String? provinceId;
+
+  District(
+      {this.id,
+        this.type,
+        this.code,
+        this.khmerName,
+        this.name,
+        this.provinceId});
+
+  District.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    type = json['type'];
+    code = json['code'];
+    khmerName = json['khmer_name'];
+    name = json['name'];
+    provinceId = json['province_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['type'] = this.type;
+    data['code'] = this.code;
+    data['khmer_name'] = this.khmerName;
+    data['name'] = this.name;
+    data['province_id'] = this.provinceId;
+    return data;
+  }
+}
+
+class Commune {
+  String? id;
+  String? type;
+  String? code;
+  String? khmerName;
+  String? name;
+  String? provinceId;
+  String? districtId;
+
+  Commune(
+      {this.id,
+        this.type,
+        this.code,
+        this.khmerName,
+        this.name,
+        this.provinceId,
+        this.districtId});
+
+  Commune.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    type = json['type'];
+    code = json['code'];
+    khmerName = json['khmer_name'];
+    name = json['name'];
+    provinceId = json['province_id'];
+    districtId = json['district_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['type'] = this.type;
+    data['code'] = this.code;
+    data['khmer_name'] = this.khmerName;
+    data['name'] = this.name;
+    data['province_id'] = this.provinceId;
+    data['district_id'] = this.districtId;
+    return data;
+  }
+}
