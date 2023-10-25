@@ -209,7 +209,6 @@ class CartBottomSheetState extends State<CartBottomSheet> {
 
                           GridView.builder(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-
                             crossAxisCount: 4, // number of items in each row
                             mainAxisSpacing: 4.0, // spacing between rows
                             crossAxisSpacing: 4.0, // spacing between columns
@@ -220,6 +219,13 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                           itemCount: widget.product!.colors!.length,
                           itemBuilder: (ctx, index) {
                             String colorString = '0xff${widget.product!.colors![index].code!.substring(1, 7)}';
+                            String? image = '';
+                            for(int i=0; i< widget.product!.colorImage!.length; i++){
+                                if(widget.product!.colorImage![i].color == '${widget.product!.colors?[index].code?.substring(1, 7)}'){
+                                  image = widget.product!.colorImage![i].imageName;
+                                }
+                            }
+
                             return Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 2),
                               child: Center(
@@ -236,7 +242,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                                         decoration: BoxDecoration(
                                           color: Color(int.parse(colorString)),
                                           borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                                          image: DecorationImage(image: NetworkImage('${Provider.of<SplashProvider>(context,listen: false).baseUrls!.productImageUrl}/${widget.product!.colorImage![index].imageName}'),
+                                          image: DecorationImage(image: NetworkImage('${Provider.of<SplashProvider>(context,listen: false).baseUrls!.productImageUrl}/${image}'),
                                                 fit: BoxFit.cover)
                                         ),
                                       ),

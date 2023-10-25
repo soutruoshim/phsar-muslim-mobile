@@ -96,7 +96,7 @@ class SplashScreenState extends State<SplashScreen> {
       key: _globalKey,
       body: Provider.of<SplashProvider>(context).hasConnection ?
       Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        SizedBox(width: 100, child: Image.asset(Images.icon, width: 100.0)),
+        SizedBox(width: 150, child: Image.asset(Images.icon, width: 150.0)),
         Text(AppConstants.appName,style: textRegular.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Colors.white)),
         Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
             child: Text(AppConstants.slogan,style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.white)))]),
