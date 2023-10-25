@@ -188,15 +188,36 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                 (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ?
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
-                  child: Row( children: [
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                     Text('${getTranslated('select_variant', context)} : ',
-                        style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                    const SizedBox(width: Dimensions.paddingSizeDefault),
-                    Expanded(child: SizedBox(height: 60,
-                        child: ListView.builder(
+                        style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),textAlign: TextAlign.left,),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
+                    //const SizedBox(width: Dimensions.paddingSizeDefault),
+                        ConstrainedBox(
+                          constraints: new BoxConstraints(
+                            maxHeight: 300.0,
+
+                          ),
+                        child:
+                    // ListView.builder(
+                    //       itemCount: widget.product!.colors!.length,
+                    //       shrinkWrap: true,
+                    //       scrollDirection: Axis.horizontal,
+
+                          GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 4, // number of items in each row
+                            mainAxisSpacing: 4.0, // spacing between rows
+                            crossAxisSpacing: 4.0, // spacing between columns
+                          ),
+                          physics: const BouncingScrollPhysics(),
+                          padding: EdgeInsets.all(8.0),
+                          shrinkWrap: true,// padding around the grid
                           itemCount: widget.product!.colors!.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
                           itemBuilder: (ctx, index) {
                             String colorString = '0xff${widget.product!.colors![index].code!.substring(1, 7)}';
                             return Padding(
@@ -213,7 +234,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                                         height: Dimensions.imageColor, width: Dimensions.imageColor,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          //color: Color(int.parse(colorString)),
+                                          color: Color(int.parse(colorString)),
                                           borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                                           image: DecorationImage(image: NetworkImage('${Provider.of<SplashProvider>(context,listen: false).baseUrls!.productImageUrl}/${widget.product!.colorImage![index].imageName}'),
                                                 fit: BoxFit.cover)
@@ -227,7 +248,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                           },
                         ),
                       ),
-                    ),
+
                   ]),
                 ) : const SizedBox(),
                 (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ? const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
