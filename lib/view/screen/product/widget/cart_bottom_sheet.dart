@@ -50,7 +50,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
 
               if(widget.product != null && widget.product!.colorImage != null && widget.product!.colorImage!.isNotEmpty){
                 for(int i=0; i< widget.product!.colorImage!.length; i++){
-                  if(widget.product!.colorImage![i].color == '${widget.product!.colors?[details.variantIndex??0].code?.substring(1, 7)}'){
+                  if(widget.product!.colorImage![i].color == '${widget.product!.colors?[details.variantIndex??0].code?.substring(1)}'){
                     colorWiseSelectedImage = widget.product!.colorImage![i].imageName;
                   }
                 }
@@ -218,10 +218,10 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                           shrinkWrap: true,// padding around the grid
                           itemCount: widget.product!.colors!.length,
                           itemBuilder: (ctx, index) {
-                            String colorString = '0xff${widget.product!.colors![index].code!.substring(1, 7)}';
+                            String colorString = '0xff${widget.product!.colors![index].code!.substring(1)}';
                             String? image = '';
                             for(int i=0; i< widget.product!.colorImage!.length; i++){
-                                if(widget.product!.colorImage![i].color == '${widget.product!.colors?[index].code?.substring(1, 7)}'){
+                                if(widget.product!.colorImage![i].color == '${widget.product!.colors?[index].code?.substring(1)}'){
                                   image = widget.product!.colorImage![i].imageName;
                                 }
                             }
@@ -240,7 +240,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                                         height: Dimensions.imageColor, width: Dimensions.imageColor,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          color: Color(int.parse(colorString)),
+                                          //color: Color(int.parse(colorString)),
                                           borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                                           image: DecorationImage(image: NetworkImage('${Provider.of<SplashProvider>(context,listen: false).baseUrls!.productImageUrl}/${image}'),
                                                 fit: BoxFit.cover)

@@ -119,40 +119,41 @@ class ProductTitleView extends StatelessWidget {
             const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
+            //
+            // productModel!.colors != null && productModel!.colors!.isNotEmpty ?
+            // Row( children: [
+            //   Text('${getTranslated('select_variant', context)} : ',
+            //       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+            //   Expanded(
+            //     child: SizedBox(height: 40,
+            //       child: ListView.builder(
+            //         itemCount: productModel!.colors!.length,
+            //         shrinkWrap: true,
+            //         scrollDirection: Axis.horizontal,
+            //
+            //         itemBuilder: (context, index) {
+            //           String colorString = '0xff${productModel!.colors![index].code!.substring(1, 7)}';
+            //           return Center(
+            //             child: Container(
+            //               decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
+            //               child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+            //                 child: Container(height: 20, width: 20,
+            //                   padding: const EdgeInsets.all( Dimensions.paddingSizeExtraSmall),
+            //                   alignment: Alignment.center,
+            //                   decoration: BoxDecoration(color: Color(int.parse(colorString)),
+            //                     borderRadius: BorderRadius.circular(30),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            // ]) : const SizedBox(),
 
-            productModel!.colors != null && productModel!.colors!.isNotEmpty ?
-            Row( children: [
-              Text('${getTranslated('select_variant', context)} : ',
-                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-              Expanded(
-                child: SizedBox(height: 40,
-                  child: ListView.builder(
-                    itemCount: productModel!.colors!.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-
-                    itemBuilder: (context, index) {
-                      String colorString = '0xff${productModel!.colors![index].code!.substring(1, 7)}';
-                      return Center(
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-                          child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                            child: Container(height: 20, width: 20,
-                              padding: const EdgeInsets.all( Dimensions.paddingSizeExtraSmall),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(color: Color(int.parse(colorString)),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ]) : const SizedBox(),
-          productModel!.colors != null &&  productModel!.colors!.isNotEmpty ? const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
+            productModel!.colors != null &&  productModel!.colors!.isNotEmpty ? const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
 
 
 
