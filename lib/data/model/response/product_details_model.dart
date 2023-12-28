@@ -429,7 +429,7 @@ class ProductDetailsModel {
       }
     }
 
-    packagePrice = json['package_price'];
+    packagePrice = double.parse(json['package_price'].toString()) ;
     minimumPackageOrderQty = json['minimum_package_order_qty'];
     productCode = json['product_code'];
 

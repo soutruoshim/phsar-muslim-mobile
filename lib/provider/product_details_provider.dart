@@ -65,7 +65,7 @@ class ProductDetailsProvider extends ChangeNotifier {
 
     _isDetails = true;
     ApiResponse apiResponse = await productDetailsRepo!.getProduct(productId);
-    print(apiResponse);
+    print("responsed");
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isDetails = false;
       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
