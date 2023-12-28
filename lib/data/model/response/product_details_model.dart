@@ -55,7 +55,7 @@ class ProductDetailsModel {
   List<Reviews>? _reviews;
   Seller? _seller;
   int? wishList;
-  int? packagePrice;
+  double? packagePrice;
   int? minimumPackageOrderQty;
   String? productCode;
 
