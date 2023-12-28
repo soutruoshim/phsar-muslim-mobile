@@ -16,6 +16,8 @@ import 'package:phsar_muslim/view/basewidget/show_custom_snakbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+import 'models/variant.dart';
+
 class ProductDetailsProvider extends ChangeNotifier {
   final ProductDetailsRepo? productDetailsRepo;
   ProductDetailsProvider({required this.productDetailsRepo});
@@ -24,7 +26,7 @@ class ProductDetailsProvider extends ChangeNotifier {
   int? _imageSliderIndex;
   bool _wish = false;
   int? _quantity = 0;
-  int? _variantIndex;
+  int? _variantIndex=0;
   List<int>? _variationIndex;
   int _rating = 0;
   bool _isLoading = false;
@@ -35,6 +37,10 @@ class ProductDetailsProvider extends ChangeNotifier {
   bool _hasConnection = true;
   bool _isDetails = false;
   bool get isDetails =>_isDetails;
+
+  List<Variant> _variantIndexList = [];
+  int _quantities = 0;
+
 
   List<ReviewModel>? get reviewList => _reviewList;
   int? get imageSliderIndex => _imageSliderIndex;
@@ -52,13 +58,14 @@ class ProductDetailsProvider extends ChangeNotifier {
   ProductDetailsModel? _productDetailsModel;
   ProductDetailsModel? get productDetailsModel => _productDetailsModel;
 
-
+  List<Variant> get variantIndexList => _variantIndexList;
+  int get quantities => _quantities;
 
   Future<void> getProductDetails(BuildContext context, String productId) async {
 
     _isDetails = true;
     ApiResponse apiResponse = await productDetailsRepo!.getProduct(productId);
-
+    print(apiResponse);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isDetails = false;
       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
@@ -80,6 +87,7 @@ class ProductDetailsProvider extends ChangeNotifier {
     _hasConnection = true;
     _variantIndex = 0;
     ApiResponse reviewResponse = await productDetailsRepo!.getReviews(productId.toString());
+
     if (reviewResponse.response != null && reviewResponse.response!.statusCode == 200) {
       _reviewList = [];
       reviewResponse.response!.data.forEach((reviewModel) => _reviewList!.add(ReviewModel.fromJson(reviewModel)));
@@ -159,6 +167,28 @@ class ProductDetailsProvider extends ChangeNotifier {
     _quantity = minimumOrderQuantity;
     notifyListeners();
   }
+
+  // set variantIndex select
+  void setCartVariantIndexList(int quantityIndex,int index, BuildContext context) {
+    var data= _variantIndexList.where((item) => (item.index==index));
+    if(quantityIndex > 0 ){
+       if(data.isNotEmpty){
+         _variantIndexList.remove(data.first);
+         _variantIndexList.add(Variant(index: index, quantity: quantityIndex));
+       }else{
+         _variantIndexList.add(Variant(index: index, quantity: quantityIndex));
+       }
+    }else{
+      _variantIndexList.remove(data.first);
+    }
+
+    _quantities = _variantIndexList.fold(0, (sum, item) => sum + item.quantity!.toInt());
+
+
+    notifyListeners();
+  }
+
+
 
   void setCartVariationIndex(int? minimumOrderQuantity, int index, int i, BuildContext context) {
     _variationIndex![index] = i;

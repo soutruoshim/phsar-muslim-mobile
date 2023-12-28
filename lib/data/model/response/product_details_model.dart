@@ -55,6 +55,9 @@ class ProductDetailsModel {
   List<Reviews>? _reviews;
   Seller? _seller;
   int? wishList;
+  int? packagePrice;
+  int? minimumPackageOrderQty;
+  String? productCode;
 
 
   ProductDetailsModel(
@@ -111,6 +114,9 @@ class ProductDetailsModel {
         List<Reviews>? reviews,
         Seller? seller,
         int? wishList,
+        this.packagePrice,
+        this.minimumPackageOrderQty,
+        this.productCode,
       }) {
     if (id != null) {
       _id = id;
@@ -421,8 +427,12 @@ class ProductDetailsModel {
       }catch(e){
         wishList = int.parse(json['wish_list_count'].toString());
       }
-
     }
+
+    packagePrice = json['package_price'];
+    minimumPackageOrderQty = json['minimum_package_order_qty'];
+    productCode = json['product_code'];
+
   }
 
 }
