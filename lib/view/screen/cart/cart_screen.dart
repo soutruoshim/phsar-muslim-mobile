@@ -66,7 +66,6 @@ class CartScreenState extends State<CartScreen> {
           cartList.addAll(cart.cartList);
 
           for(CartModel cart in cartList) {
-
             if(cart.productType == "physical"){
               onlyDigital = false;
             }

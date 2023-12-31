@@ -149,6 +149,7 @@ class OrderProvider with ChangeNotifier {
   final TextEditingController orderNoteController = TextEditingController();
 
   List<String> inputValueList = [];
+
   Future<void> placeOrder(
       {required Function callback, String? addressID,
         String? couponCode, String? couponAmount,
@@ -221,6 +222,11 @@ class OrderProvider with ChangeNotifier {
     } else {
       ApiChecker.checkApi( apiResponse);
     }
+    notifyListeners();
+  }
+
+  void setDefaultShippingAddress(){
+    _addressIndex = 0;
     notifyListeners();
   }
 

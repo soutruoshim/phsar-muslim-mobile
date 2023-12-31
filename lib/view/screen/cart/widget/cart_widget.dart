@@ -107,7 +107,7 @@ class CartWidget extends StatelessWidget {
                           (cartModel!.variant != null && cartModel!.variant!.isNotEmpty) ? Padding(
                             padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
                             child: Row(children: [
-                              Flexible(child: Text(cartModel!.variant!,maxLines: 1,overflow: TextOverflow.ellipsis,
+                              Flexible(child: Text("Code: #${cartModel!.variant!}",maxLines: 1,overflow: TextOverflow.ellipsis,
                                   style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
                                     color: ColorResources.getReviewRattingColor(context),))),
                             ]),

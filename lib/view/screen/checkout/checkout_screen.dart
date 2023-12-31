@@ -26,6 +26,8 @@ import 'package:phsar_muslim/view/screen/dashboard/dashboard_screen.dart';
 import 'package:phsar_muslim/view/screen/offline_payment/offline_payment.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utill/images.dart';
+
 class CheckoutScreen extends StatefulWidget {
   final List<CartModel> cartList;
   final bool fromProductDetails;
@@ -99,9 +101,20 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                 builder: (context, cartProvider,_) {
                   return Consumer<ProfileProvider>(
                     builder: (context, profileProvider,_) {
-                      return Padding(
+                      if(profileProvider.addressList.isNotEmpty && orderProvider.addressIndex == null){
+                          orderProvider.setDefaultShippingAddress();
+                      }
+                      return orderProvider.isLoading
+                          ? Container(
+                            width: 46,
+                            height: 46,
+                            child: const Center(child:
+                              SizedBox(width: 30, height: 30, child: CircularProgressIndicator())),
+                          )
+                          :Padding(
                         padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                         child: CustomButton(
+                          isBuy: orderProvider.isLoading,
                           onTap: () async {
                             if(orderProvider.addressIndex == null && !widget.onlyDigital) {
                               showCustomSnackBar(getTranslated('select_a_shipping_address', context), context, isToaster: true);
@@ -185,6 +198,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             }
                           },
                           buttonText: '${getTranslated('proceed', context)}',
+                          leftIcon: orderProvider.isLoading?Images.orderPlaceIcon:null,
                         ),
                       );
                     }
@@ -202,8 +216,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           return Consumer<OrderProvider>(
             builder: (context, orderProvider,_) {
               return Column(children: [
-
-
 
                   Expanded(
                     child: ListView(physics: const BouncingScrollPhysics(), padding: const EdgeInsets.all(0), children: [

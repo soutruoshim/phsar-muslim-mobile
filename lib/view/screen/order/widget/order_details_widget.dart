@@ -121,7 +121,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                         (widget.orderDetailsModel.variant != null && widget.orderDetailsModel.variant!.isNotEmpty) ?
                         Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
                           child: Row(children: [
-                            Text('${getTranslated('variations', context)}: ',
+                            Text('${getTranslated('code', context)}: #',
                                 style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
 
