@@ -135,6 +135,31 @@ class CartProvider extends ChangeNotifier {
     return apiResponse;
   }
 
+  Future<void> addToCartListAPI(List<CartModelBody> carts, BuildContext context, List<ChoiceOptions> choices, List<int>? variationIndexes) async {
+    _addToCartLoading = true;
+    notifyListeners();
+    String message = "Empty";
+    if(carts.isNotEmpty){
+      for(int idx = 0; idx < carts.length; idx++){
+        ApiResponse apiResponse = await cartRepo!.addToCartListData(carts[idx], choices, variationIndexes);
+        //_addToCartLoading = false;
+        if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+          //_addToCartLoading = false;
+          message =apiResponse.response!.data['message'];
+        } else {
+          //_addToCartLoading = false;
+          message =apiResponse.response!.data['message'];
+          ApiChecker.checkApi(apiResponse);
+        }
+      }
+    }
+    showCustomSnackBar(message, Get.context!, isError: false, isToaster: true);
+    getCartDataAPI(Get.context!);
+    _addToCartLoading = false;
+    Navigator.of(Get.context!).pop();
+    notifyListeners();
+  }
+
 
   Future<void> removeFromCartAPI(BuildContext context, int? key, int index) async{
     cartList[index].decrement = true;

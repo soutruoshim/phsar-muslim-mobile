@@ -35,7 +35,9 @@ class CartBottomSheetState extends State<CartBottomSheet> {
   void initState() {
     Provider.of<ProductDetailsProvider>(context, listen: false)
         .initData(widget.product!, widget.product!.minimumOrderQty, context);
+    Provider.of<ProductDetailsProvider>(context, listen: false).resetCartVariantIndexList();
     super.initState();
+
   }
 
   @override
@@ -170,6 +172,25 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                 variation: variation,
                 quantity: details.quantity,
               );
+
+              // create list model cart
+              List<CartModelBody> carts = [];
+              details.variantIndexList.forEach((element) {
+                     carts.add(CartModelBody(
+                       productId: widget.product!.id,
+                       variant: (widget.product!.colors != null &&
+                           widget.product!.colors!.isNotEmpty)
+                           ? widget.product!.colors![element.index!].name
+                           : '',
+                       color: (widget.product!.colors != null &&
+                           widget.product!.colors!.isNotEmpty)
+                           ? widget.product!.colors![element.index!].code
+                           : '',
+                       variation: variation,
+                       quantity: element.quantity,
+                     )
+                  );
+              });
 
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -786,31 +807,18 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                                                     : 'add_to_cart',
                                                 context),
                                             onTap: stock <
-                                                        widget.product!
-                                                            .minimumOrderQty! &&
-                                                    widget.product!
-                                                            .productType ==
-                                                        "physical"
+                                                        widget.product!.minimumOrderQty! && widget.product!.productType == "physical"
                                                 ? null
                                                 : () {
-                                                    if (stock! >=
-                                                            widget.product!
-                                                                .minimumOrderQty! ||
-                                                        widget.product!
-                                                                .productType ==
-                                                            "digital") {
-                                                      Provider.of<CartProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .addToCartAPI(
-                                                        cart,
-                                                        context,
-                                                        widget.product!
-                                                            .choiceOptions!,
-                                                        Provider.of<ProductDetailsProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .variationIndex,
+
+                                                    if (stock! >= widget.product!.minimumOrderQty! || widget.product!.productType == "digital") {
+                                                      // Provider.of<CartProvider>(context, listen: false)
+                                                      //     .addToCartAPI(cart, context, widget.product!.choiceOptions!,
+                                                      //   Provider.of<ProductDetailsProvider>(context, listen: false).variationIndex,
+                                                      // );
+                                                      Provider.of<CartProvider>(context, listen: false)
+                                                          .addToCartListAPI(carts, context, widget.product!.choiceOptions!,
+                                                        Provider.of<ProductDetailsProvider>(context, listen: false).variationIndex,
                                                       );
                                                     }
                                                   }),

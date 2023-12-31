@@ -188,6 +188,14 @@ class ProductDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // set variantIndex select
+  void resetCartVariantIndexList() {
+    _variantIndexList = [];
+    _quantities = 0;
+    notifyListeners();
+  }
+
+
 
 
   void setCartVariationIndex(int? minimumOrderQuantity, int index, int i, BuildContext context) {
