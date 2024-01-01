@@ -46,7 +46,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
         if(!singleVendor)
           NavigationModel(name: 'inbox', icon: Images.messageImage, screen: const InboxScreen(isBackButtonExist: false)),
-          NavigationModel(name: 'CATEGORY', icon: Images.category, screen: const AllCategoryScreen(isBackButtonExist: false)),
+          NavigationModel(name: 'CATEGORY', icon: Images.category2, screen: const AllCategoryScreen(isBackButtonExist: false)),
           NavigationModel(name: 'orders', icon: Images.shoppingImage, screen:  const OrderScreen(isBacButtonExist: false)),
           NavigationModel(name: 'more', icon: Images.moreImage, screen:  const MoreScreen()),
 
