@@ -4,6 +4,7 @@ import 'package:phsar_muslim/provider/splash_provider.dart';
 import 'package:phsar_muslim/utill/custom_themes.dart';
 import 'package:phsar_muslim/utill/dimensions.dart';
 import 'package:phsar_muslim/view/basewidget/custom_exit_card.dart';
+import 'package:phsar_muslim/view/screen/category/all_category_screen.dart';
 import 'package:phsar_muslim/view/screen/chat/inbox_screen.dart';
 import 'package:phsar_muslim/localization/language_constrants.dart';
 import 'package:phsar_muslim/utill/images.dart';
@@ -45,6 +46,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
         if(!singleVendor)
           NavigationModel(name: 'inbox', icon: Images.messageImage, screen: const InboxScreen(isBackButtonExist: false)),
+          NavigationModel(name: 'CATEGORY', icon: Images.category, screen: const AllCategoryScreen(isBackButtonExist: false)),
           NavigationModel(name: 'orders', icon: Images.shoppingImage, screen:  const OrderScreen(isBacButtonExist: false)),
           NavigationModel(name: 'more', icon: Images.moreImage, screen:  const MoreScreen()),
 

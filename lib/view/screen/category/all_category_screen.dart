@@ -14,7 +14,8 @@ import 'package:phsar_muslim/view/screen/product/brand_and_category_product_scre
 import 'package:provider/provider.dart';
 
 class AllCategoryScreen extends StatelessWidget {
-  const AllCategoryScreen({Key? key}) : super(key: key);
+  final bool isBackButtonExist;
+  const AllCategoryScreen({Key? key,this.isBackButtonExist = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class AllCategoryScreen extends StatelessWidget {
 
     return Scaffold(
 
-      appBar: CustomAppBar(title: getTranslated('CATEGORY', context)),
+      appBar: CustomAppBar(title: getTranslated('CATEGORY', context),isBackButtonExist: isBackButtonExist),
       body: Consumer<CategoryProvider>(
         builder: (context, categoryProvider, child) {
           return categoryProvider.categoryList.isNotEmpty ? Row(children: [
